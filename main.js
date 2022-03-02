@@ -1,0 +1,33 @@
+const { Telegraf } = require('telegraf')
+const { v4: uuidV4 } = require('uuid')
+require('dotenv').config()
+let factGenerator = require('./factGenerator')
+var express = require("express");
+var app = express();
+
+var server = app.listen(process.env.port || process.env.PORT || 9090, function () {
+    console.log("Listening on port 9090");
+});
+
+
+const bot = new Telegraf(process.env.BOT_TOKEN)
+
+bot.start((ctx) => {
+    let message = ` Please use the /fact command to receive a new fact`
+    ctx.reply(message)
+})
+
+bot.command('fact', async (ctx) => {
+    try {
+        ctx.reply('Generating image, Please wait !!!')
+        let imagePath = `./temp/${uuidV4()}.jpg`
+        await factGenerator.generateImage(imagePath)
+        await ctx.replyWithPhoto({ source: imagePath })
+        factGenerator.deleteImage(imagePath)
+    } catch (error) {
+        console.log('error', error)
+        ctx.reply('error sending image')
+    }
+})
+
+bot.launch()
