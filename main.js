@@ -29,7 +29,7 @@ bot.launch()
 
 
 
-var server = app.listen(process.env.port || process.env.PORT || 9090, function () {
+app.listen(process.env.port || process.env.PORT || 9090, function () {
     console.log("Listening on port 9090");
 });
 
