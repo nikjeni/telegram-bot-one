@@ -5,11 +5,6 @@ let factGenerator = require('./factGenerator')
 var express = require("express");
 var app = express();
 
-var server = app.listen(process.env.port || process.env.PORT || 9090, function () {
-    console.log("Listening on port 9090");
-});
-
-
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 bot.start((ctx) => {
@@ -31,3 +26,10 @@ bot.command('fact', async (ctx) => {
 })
 
 bot.launch()
+
+
+
+var server = app.listen(process.env.port || process.env.PORT || 9090, function () {
+    console.log("Listening on port 9090");
+});
+
